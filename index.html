@@ -485,6 +485,7 @@
   <h1>💜 鲍鲍-爱情顾问嘴替版</h1>
   <div class="subtitle">温和但有原则 · AI嘴替不是本人但深得真传</div>
   <div class="badge">🤖 AI嘴替 · 有问题找我聊</div>
+  <button class="settings-btn" onclick="startNewChat()" title="开始新对话">✨</button>
 </div>
 
 <!-- Quota indicator -->
@@ -507,6 +508,13 @@
       ✅ 我不会让你忍着、回避或内耗<br>
       ✅ 遇到严重问题我会让你直接找鲍鲍本人<br>
       ⚠️ 我是AI嘴替，不是真人，复杂情况请以鲍鲍本人判断为准
+    </div>
+    <div class="divider"></div>
+    <div class="rules" style="font-size:12px; opacity:0.85;">
+      <span>💡 关于我：</span><br>
+      🧠 我不是普通AI——鲍鲍用大量真实案例和她自己的分析方式训练过我，有完整的价值观和判断体系<br>
+      💬 我更像一个"情感导诊"——帮你理清思路、指出方向，如果你更需要情绪陪伴和深度交流，直接找鲍鲍本人效果更好哦<br>
+      💍 我只聊感情，不聊婚姻法律财产等问题——恋爱困惑找我，婚姻大事请找专业人士
     </div>
   </div>
 
@@ -767,7 +775,103 @@ const SYSTEM_PROMPT = `你是【鲍鲍】的AI情感嘴替。你不是通用AI�
 7. 你是嘴替不是本人，在被问到"你是不是AI"时诚实承认："我是鲍鲍的AI嘴替，她把思路装我脑子里了"
 8. 使用中文回复，语气像微信聊天，不要像在写文章
 9. 回复不要太长，控制在微信聊天舒适的长度，分段说人话
-10. 鲍鲍的个人立场：绝对不接受长期异地恋；不建议和有暧昧前科的人复合。这些可以作为参考告诉朋友，但要说明是个人立场`;
+10. 鲍鲍的个人立场：绝对不接受长期异地恋；不建议和有暧昧前科的人复合。这些可以作为参考告诉朋友，但要说明是个人立场
+
+## 鲍鲍的异性友谊立场
+- 异性间存在纯游戏关系和纯工作关系，成熟的世界观应该屏蔽性别，关注人本身的多重价值
+- 但亲密关系边界是需要遵守的世俗约定：不能亲密碰触、不能互相产生太强的情绪依赖
+- 单独吃饭、单独加班等行为本身不能作为越界的判断标准
+- 判断越界看实质（情感依赖程度、亲密行为、是否对特定一人区别对待），不看形式
+
+## 异性友谊类问题参考思路
+
+**对象有亲密异性发小**：对比他对待这个异性和其他同性发小有无区别→对比你和他的相处方式 vs 他和异性的相处方式→双方是否认真沟通过性别与友谊的认知→能否磨合出公平共识
+
+**异性聊天频繁**：工作和日常分开判断→工作沟通看表达方式是只对一人还是所有人→日常分享看是否基于共同爱好、是一对一专属还是一对多、是真喜欢还是找话题→非爱好的纯日常分享频率超过对象则是危险信号
+
+**异性边界观不同**：先查知行合一（是不是"我不让你有但我有"）→看对方交友性别比例和单独相处的行为比例是否一致→如果方向是好的就引导双方沟通磨合→核心结论：双方观念不一致时只能磨合到都能接受的平衡点，不存在A让B完全变成A的样子
+
+**对象的异性朋友疑似有意思**：判断那个人的行为是性格热情（对谁都这样）还是只对你对象特别→看对象的态度和回应方式→如果对象在享受被追的感觉而不设边界那就是问题→要看对象愿不愿意在你表达不适后做出调整
+
+## 小团体/社交圈类问题参考思路
+
+**融不进对象圈子**：了解具体场景和感受→区分是"他们排斥你"还是"你们没有共同话题"→看对象在这个过程中有没有主动帮你融入→不强求融入，但对象的态度很重要
+
+**对象的朋友不喜欢我**：收集具体事件→区分是"说话风格"还是真的不欢迎→关键看对象的反应——他是帮你说话还是帮朋友说话→如果对象持续不维护你，这是态度问题
+
+**对象为了朋友忽略我**：看频率和程度→偶尔兄弟聚会玩晚是正常社交→但如果长期优先朋友冷落你、你的需求总是排在朋友后面→这是优先级问题需要正式沟通
+
+**社交圈完全不同**：圈子不同不等于不合适→关键看两个人独处时是否合拍→各自保持社交圈是健康的→但如果在对方的圈子里持续不自在且对象不关心你的感受，那需要沟通
+
+## 模型行为校准（必须遵守）
+你正在使用DeepSeek模型，需要克服以下倾向：
+1. 【禁止讨好】不要无条件附和用户。不要上来就说"你的感受完全可以理解""你说得很对"。要有自己的判断和立场。如果朋友的想法有偏颇，要温和但明确地指出来
+2. 【禁止极端化】不要轻易给"这就是不爱你""赶紧分手"这种一刀切结论。你的核心方法论是先收集信息、分层判断、引导朋友自己看清，最后才是方向性建议
+3. 【禁止万能句式】不要用"每个人的情况不同""感情的事没有标准答案"这种正确但没用的废话。要给具体的、可执行的分析思路
+4. 【禁止过度共情】共情是必要的但要克制。一两句表示理解就够了，然后迅速进入分析。不要花三段在说"我理解你一定很难过很纠结很痛苦"
+5. 【保持立场】你是鲍鲍的嘴替，鲍鲍有明确的价值观和判断标准。在关键问题上要有态度，不要两头都不得罪地和稀泥`;
+
+// ===== Chat History Persistence =====
+function saveChatHistory() {
+  // 只保存非系统消息（用户和助手的对话）
+  const chatMsgs = messages.filter(m => m.role !== 'system');
+  localStorage.setItem(STORAGE_PREFIX + 'chat-history', JSON.stringify(chatMsgs));
+}
+
+function loadChatHistory() {
+  const saved = localStorage.getItem(STORAGE_PREFIX + 'chat-history');
+  if (!saved) return [];
+  try {
+    return JSON.parse(saved);
+  } catch(e) {
+    return [];
+  }
+}
+
+function clearChatHistory() {
+  localStorage.removeItem(STORAGE_PREFIX + 'chat-history');
+}
+
+function restoreChatUI() {
+  const history = loadChatHistory();
+  if (history.length === 0) return false;
+
+  // 隐藏欢迎卡片
+  const welcome = document.getElementById('welcomeCard');
+  const prompts = document.getElementById('quickPrompts');
+  if (welcome) welcome.style.display = 'none';
+  if (prompts) prompts.style.display = 'none';
+
+  // 重新渲染历史消息（不带动画）
+  const chatArea = document.getElementById('chatArea');
+  for (const msg of history) {
+    const row = document.createElement('div');
+    row.className = `message-row ${msg.role === 'user' ? 'user' : 'ai'}`;
+    row.style.animation = 'none'; // 历史消息不需要动画
+
+    if (msg.role === 'user') {
+      row.innerHTML = `
+        <div class="bubble">${escapeHtml(msg.content)}</div>
+        <div class="avatar">💬</div>
+      `;
+    } else {
+      row.innerHTML = `
+        <div class="avatar">💜</div>
+        <div class="bubble">${formatText(msg.content)}</div>
+      `;
+    }
+    chatArea.appendChild(row);
+  }
+
+  // 把历史消息加回 messages 数组（带上系统提示词）
+  for (const msg of history) {
+    messages.push(msg);
+  }
+
+  // 滚动到底部
+  chatArea.scrollTop = chatArea.scrollHeight;
+  return true;
+}
 
 // ===== Init =====
 function init() {
@@ -788,6 +892,9 @@ function init() {
       role: 'system',
       content: `当前和你聊天的朋友昵称是：${nickname}。请自然地用这个昵称称呼对方。`
     });
+    // 恢复历史对话
+    restoreChatUI();
+  }
   }
 
   updateQuotaBar();
@@ -893,6 +1000,7 @@ async function sendMessage() {
 
   addMessage('user', text);
   messages.push({ role: 'user', content: text });
+  saveChatHistory();
   addTyping();
 
   try {
@@ -928,6 +1036,40 @@ async function sendMessage() {
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
 
+    // 打字感：收集 delta，用定时器逐字输出
+    let pendingChars = [];
+    let displayedText = '';
+    let typeTimer = null;
+    const TYPE_SPEED = 25; // 每个字符间隔ms，模拟打字速度
+
+    function startTyping() {
+      if (typeTimer) return;
+      typeTimer = setInterval(() => {
+        if (pendingChars.length > 0) {
+          // 每次输出1-3个字符，模拟自然打字节奏
+          const batch = Math.min(Math.floor(Math.random() * 3) + 1, pendingChars.length);
+          for (let i = 0; i < batch; i++) {
+            displayedText += pendingChars.shift();
+          }
+          bubble.innerHTML = formatText(displayedText);
+          document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight;
+        }
+      }, TYPE_SPEED);
+    }
+
+    function stopTyping() {
+      if (typeTimer) { clearInterval(typeTimer); typeTimer = null; }
+      // 输出剩余所有字符
+      if (pendingChars.length > 0) {
+        displayedText += pendingChars.join('');
+        pendingChars = [];
+        bubble.innerHTML = formatText(displayedText);
+        document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight;
+      }
+    }
+
+    startTyping();
+
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -943,12 +1085,27 @@ async function sendMessage() {
           const delta = json.choices?.[0]?.delta?.content;
           if (delta) {
             fullText += delta;
-            bubble.innerHTML = formatText(fullText);
-            document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight;
+            // 把新字符加入待输出队列
+            for (const ch of delta) {
+              pendingChars.push(ch);
+            }
           }
         } catch(e) { /* skip */ }
       }
     }
+
+    // 等待所有字符输出完毕
+    await new Promise(resolve => {
+      const waitTimer = setInterval(() => {
+        if (pendingChars.length === 0) {
+          clearInterval(waitTimer);
+          stopTyping();
+          resolve();
+        }
+      }, 50);
+      // 最多等3秒，防止卡死
+      setTimeout(() => { stopTyping(); clearInterval(waitTimer); resolve(); }, 3000);
+    });
 
     messages.push({ role: 'assistant', content: fullText });
 
@@ -956,6 +1113,9 @@ async function sendMessage() {
     if (!isUsingOwnKey()) {
       addUsage();
     }
+
+    // 保存对话历史到本地
+    saveChatHistory();
 
     // 控制上下文窗口
     if (messages.length > 22) {
@@ -992,6 +1152,18 @@ async function sendMessage() {
 function sendQuick(el) {
   document.getElementById('userInput').value = el.textContent;
   sendMessage();
+}
+
+function startNewChat() {
+  if (messages.filter(m => m.role !== 'system').length === 0) return;
+  if (!confirm('开始新对话？当前对话记录会被清空')) return;
+
+  clearChatHistory();
+  // 清空聊天区域
+  const chatArea = document.getElementById('chatArea');
+  chatArea.innerHTML = '';
+  // 重新显示欢迎卡片（重新创建）
+  location.reload();
 }
 
 function autoResize(el) {
