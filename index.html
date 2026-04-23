@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>鲍鲍-爱情顾问嘴替版</title>
+<style>
+  :root {
+    /* Lavender Purple Theme */
+    --bg: #F5F0FA;
+    --bg-chat: #FFFFFF;
+    --primary: #9B7BC7;
+    --primary-dark: #7B5BA7;
+    --primary-deeper: #5C3D87;
+    --primary-light: #E8DFF5;
+    --primary-lighter: #F0EAFA;
+    /* Yellow Contrast (Complementary) */
+    --accent: #F5C842;
+    --accent-dark: #E0AD1F;
+    --accent-light: #FFF8DC;
+    --accent-glow: rgba(245, 200, 66, 0.35);
+    /* Text */
+    --text: #2D2440;
+    --text-light: #6B5F80;
+    --text-lighter: #A99BBF;
+    /* Bubbles */
+    --user-bubble: #9B7BC7;
+    --user-text: #FFFFFF;
+    --ai-bubble: #F0EAFA;
+    --ai-text: #2D2440;
+    /* Misc */
+    --shadow: rgba(45, 36, 64, 0.1);
+    --shadow-lg: rgba(45, 36, 64, 0.16);
+    --radius: 20px;
+    --danger: #D94F4F;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ===== Header ===== */
+  .header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-deeper));
+    color: white;
+    padding: 20px 24px;
+    text-align: center;
+    flex-shrink: 0;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(91, 61, 135, 0.25);
+  }
+  .header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .header .subtitle {
+    font-size: 13px;
+    opacity: 0.85;
+    margin-top: 4px;
+  }
+  .header .badge {
+    display: inline-block;
+    background: rgba(245, 200, 66, 0.2);
+    border: 1px solid rgba(245, 200, 66, 0.4);
+    border-radius: 20px;
+    padding: 3px 14px;
+    font-size: 11px;
+    margin-top: 8px;
+    color: var(--accent);
+    backdrop-filter: blur(4px);
+  }
+  .header .settings-btn {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .header .settings-btn:hover { background: rgba(255,255,255,0.25); }
+
+  /* ===== Quota Bar ===== */
+  .quota-bar {
+    background: var(--primary-lighter);
+    padding: 6px 16px;
+    font-size: 12px;
+    color: var(--text-light);
+    text-align: center;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .quota-bar .quota-track {
+    width: 120px; height: 6px;
+    background: var(--primary-light);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .quota-bar .quota-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width 0.3s;
+  }
+  .quota-bar.warning .quota-fill { background: linear-gradient(90deg, var(--danger), #FF8A65); }
+
+  /* ===== Chat Area ===== */
+  .chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 16px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chat-area::-webkit-scrollbar { width: 4px; }
+  .chat-area::-webkit-scrollbar-thumb { background: var(--text-lighter); border-radius: 4px; }
+
+  /* Welcome card */
+  .welcome-card {
+    background: var(--bg-chat);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 24px var(--shadow);
+    text-align: center;
+    border: 1px solid var(--primary-light);
+  }
+  .welcome-card .emoji { font-size: 52px; margin-bottom: 12px; }
+  .welcome-card h2 { font-size: 19px; color: var(--primary-dark); margin-bottom: 8px; font-weight: 700; }
+  .welcome-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+  .welcome-card .divider {
+    width: 40px; height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    margin: 16px auto; border-radius: 2px;
+  }
+  .welcome-card .rules {
+    text-align: left;
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 2;
+  }
+  .welcome-card .rules span { color: var(--primary-dark); font-weight: 600; }
+
+  /* Quick prompts */
+  .quick-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .quick-prompt {
+    background: var(--bg-chat);
+    border: 1.5px solid var(--primary-light);
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--primary-dark);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .quick-prompt:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+
+  /* Message bubbles */
+  .message-row {
+    display: flex;
+    margin-bottom: 16px;
+    animation: fadeUp 0.3s ease-out;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .message-row.user { justify-content: flex-end; }
+  .message-row.ai { justify-content: flex-start; }
+
+  .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .message-row.ai .avatar { background: var(--primary-light); margin-right: 10px; }
+  .message-row.user .avatar { background: var(--user-bubble); margin-left: 10px; }
+
+  .bubble {
+    max-width: 78%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    font-size: 15px;
+    line-height: 1.7;
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  .message-row.user .bubble {
+    background: var(--user-bubble);
+    color: var(--user-text);
+    border-bottom-right-radius: 6px;
+  }
+  .message-row.ai .bubble {
+    background: var(--ai-bubble);
+    color: var(--ai-text);
+    border-bottom-left-radius: 6px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+
+  /* Typing indicator */
+  .typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 18px;
+  }
+  .typing-indicator span {
+    width: 8px; height: 8px;
+    background: var(--text-lighter);
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+  }
+  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* ===== Input Area ===== */
+  .input-area {
+    flex-shrink: 0;
+    padding: 12px 16px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    background: var(--bg-chat);
+    border-top: 1px solid var(--primary-light);
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+  .input-wrap {
+    flex: 1;
+    background: var(--bg);
+    border: 1.5px solid var(--primary-light);
+    border-radius: 24px;
+    padding: 4px;
+    display: flex;
+    align-items: flex-end;
+    transition: border-color 0.2s;
+  }
+  .input-wrap:focus-within { border-color: var(--primary); }
+  .input-wrap textarea {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    color: var(--text);
+    padding: 10px 16px;
+    resize: none;
+    max-height: 120px;
+    line-height: 1.5;
+    font-family: inherit;
+  }
+  .input-wrap textarea::placeholder { color: var(--text-lighter); }
+
+  /* Yellow contrast send button */
+  .send-btn {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    border: none;
+    color: var(--primary-deeper);
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    box-shadow: 0 2px 10px var(--accent-glow);
+  }
+  .send-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 18px var(--accent-glow);
+  }
+  .send-btn:disabled {
+    background: var(--text-lighter);
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+    color: white;
+  }
+
+  /* ===== Warning / Info Banners ===== */
+  .warning-banner {
+    background: #FFF3F3;
+    border: 1px solid #FFD4D4;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 8px 16px;
+    font-size: 13px;
+    color: var(--danger);
+    text-align: center;
+    display: none;
+    animation: fadeUp 0.3s ease-out;
+  }
+
+  .quota-exhausted {
+    background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+    border: 1px solid var(--primary);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 16px;
+    text-align: center;
+    animation: fadeUp 0.3s ease-out;
+  }
+  .quota-exhausted .emoji { font-size: 40px; margin-bottom: 12px; }
+  .quota-exhausted h3 { color: var(--primary-dark); font-size: 16px; margin-bottom: 8px; }
+  .quota-exhausted p { color: var(--text-light); font-size: 13px; line-height: 1.6; }
+  .quota-exhausted .btn-use-own-key {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 24px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: var(--primary-deeper);
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 10px var(--accent-glow);
+  }
+  .quota-exhausted .btn-use-own-key:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px var(--accent-glow);
+  }
+
+  /* Own Key badge */
+  .own-key-badge {
+    background: var(--accent-light);
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: var(--accent-dark);
+    margin-left: 8px;
+  }
+
+  /* ===== Nickname Input Modal ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 36, 64, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    backdrop-filter: blur(6px);
+    padding: 20px;
+  }
+  .modal-overlay.hidden { display: none; }
+  .modal {
+    background: var(--bg-chat);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 12px 40px var(--shadow-lg);
+    text-align: center;
+  }
+  .modal .emoji { font-size: 48px; margin-bottom: 16px; }
+  .modal h2 { font-size: 20px; color: var(--primary-dark); margin-bottom: 8px; }
+  .modal p { font-size: 14px; color: var(--text-light); line-height: 1.6; margin-bottom: 20px; }
+  .modal input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--primary-light);
+    border-radius: 14px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+    text-align: center;
+    color: var(--text);
+  }
+  .modal input:focus { border-color: var(--primary); }
+  .modal input::placeholder { color: var(--text-lighter); }
+
+  /* Yellow CTA button */
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: var(--primary-deeper);
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px var(--accent-glow);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px var(--accent-glow);
+  }
+
+  .privacy-note {
+    font-size: 11px;
+    color: var(--text-lighter);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .header { padding: 16px; }
+    .header h1 { font-size: 18px; }
+    .bubble { max-width: 85%; font-size: 14px; }
+    .welcome-card { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Own Key Modal (when quota exhausted) -->
+<div class="modal-overlay hidden" id="ownKeyModal">
+  <div class="modal">
+    <div class="emoji">🔑</div>
+    <h2>用自己的积分继续聊</h2>
+    <p>鲍鲍的免费额度今天用完啦～<br>你可以填入自己的 DeepSeek API Key 继续聊天<br>（Key 仅保存在你的浏览器中）</p>
+    <input type="password" id="ownKeyInput" placeholder="输入你的 DeepSeek API Key（sk-开头）" onkeydown="if(event.key==='Enter')saveOwnKey()">
+    <div class="privacy-note" style="margin-top:8px; text-align:left;">
+      💡 获取方式：访问 <a href="https://platform.deepseek.com/api_keys" target="_blank" style="color:var(--primary);">DeepSeek 开放平台</a> 创建 Key（充10元可用很久）<br>
+      🔒 Key 仅存在你的浏览器，不会被上传
+    </div>
+    <button class="btn-primary" onclick="saveOwnKey()">开始使用 ✨</button>
+    <div style="margin-top:12px;">
+      <a href="#" onclick="document.getElementById('ownKeyModal').classList.add('hidden');return false;" style="font-size:13px;color:var(--text-lighter);">算了，明天再来</a>
+    </div>
+  </div>
+</div>
+
+<!-- Nickname Modal (first visit) -->
+<div class="modal-overlay" id="nicknameModal">
+  <div class="modal">
+    <div class="emoji">💜</div>
+    <h2>嗨，先认识一下</h2>
+    <p>输入一个昵称，方便我称呼你<br>你的信息仅保存在你自己的浏览器中</p>
+    <input type="text" id="nicknameInput" placeholder="你的昵称" maxlength="20" onkeydown="if(event.key==='Enter')saveNickname()">
+    <button class="btn-primary" onclick="saveNickname()">开始聊天 ✨</button>
+    <div class="privacy-note">🔒 所有对话仅存在于你的浏览器，不会被记录或上传</div>
+  </div>
+</div>
+
+<!-- Main UI -->
+<div class="header">
+  <h1>💜 鲍鲍-爱情顾问嘴替版</h1>
+  <div class="subtitle">温和但有原则 · AI嘴替不是本人但深得真传</div>
+  <div class="badge">🤖 AI嘴替 · 有问题找我聊</div>
+</div>
+
+<!-- Quota indicator -->
+<div class="quota-bar" id="quotaBar">
+  <span id="quotaText">今日剩余: --/-- 条</span>
+  <div class="quota-track"><div class="quota-fill" id="quotaFill" style="width:100%"></div></div>
+</div>
+
+<div class="warning-banner" id="warningBanner"></div>
+
+<div class="chat-area" id="chatArea">
+  <div class="welcome-card" id="welcomeCard">
+    <div class="emoji">🪻</div>
+    <h2>坐下来聊聊？</h2>
+    <p>我是鲍鲍的AI情感嘴替。<br>她把自己的恋爱价值观和分析方式"装"进了我脑子里。<br>你可以跟我聊感情上的困惑，我会用她的风格帮你分析。</p>
+    <div class="divider"></div>
+    <div class="rules">
+      <span>📌 几件事先说清楚：</span><br>
+      ✅ 我会温和地指出问题关键，并给出具体建议<br>
+      ✅ 我不会让你忍着、回避或内耗<br>
+      ✅ 遇到严重问题我会让你直接找鲍鲍本人<br>
+      ⚠️ 我是AI嘴替，不是真人，复杂情况请以鲍鲍本人判断为准
+    </div>
+  </div>
+
+  <div class="quick-prompts" id="quickPrompts">
+    <div class="quick-prompt" onclick="sendQuick(this)">对象总是冷暴力怎么办</div>
+    <div class="quick-prompt" onclick="sendQuick(this)">他说爱我但行为不像</div>
+    <div class="quick-prompt" onclick="sendQuick(this)">该不该因为家里反对分手</div>
+    <div class="quick-prompt" onclick="sendQuick(this)">感情变淡了还有必要继续吗</div>
+    <div class="quick-prompt" onclick="sendQuick(this)">异地恋真的能坚持下去吗</div>
+  </div>
+</div>
+
+<div class="input-area">
+  <div class="input-wrap">
+    <textarea id="userInput" rows="1" placeholder="说说你的情况..." oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
+  </div>
+  <button class="send-btn" id="sendBtn" onclick="sendMessage()">↑</button>
+</div>
+
+<script>
+// ===== Config =====
+// DeepSeek API 直调（不需要代理服务）
+const API_URL = 'https://api.deepseek.com/chat/completions';
+const BAOBAO_API_KEY = 'sk-15faa70a090f4d3d832cccca89004acd';
+const MODEL = 'deepseek-chat';
+
+// ===== Per-user Quota (鲍鲍积分模式) =====
+const DAILY_LIMIT_PER_USER = 50;   // 每人每天50条
+const DAILY_LIMIT_GLOBAL = 1000;    // 全站每天1000条
+const STORAGE_PREFIX = 'baobao-advisor-';
+
+// ===== User state =====
+let nickname = '';
+let isGenerating = false;
+let messages = [];
+let ownApiKey = ''; // 朋友自己的Key
+
+// ===== User ID =====
+function getUserId() {
+  let id = localStorage.getItem(STORAGE_PREFIX + 'uid');
+  if (!id) {
+    id = 'u_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+    localStorage.setItem(STORAGE_PREFIX + 'uid', id);
+  }
+  return id;
+}
+
+function getTodayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+// ===== Quota (鲍鲍积分) =====
+function getUsage() {
+  return parseInt(localStorage.getItem(STORAGE_PREFIX + 'usage-' + getTodayKey()) || '0', 10);
+}
+
+function getGlobalUsage() {
+  return parseInt(localStorage.getItem(STORAGE_PREFIX + 'global-usage-' + getTodayKey()) || '0', 10);
+}
+
+function addUsage() {
+  const userKey = STORAGE_PREFIX + 'usage-' + getTodayKey();
+  localStorage.setItem(userKey, String(getUsage() + 1));
+  const globalKey = STORAGE_PREFIX + 'global-usage-' + getTodayKey();
+  localStorage.setItem(globalKey, String(getGlobalUsage() + 1));
+  updateQuotaBar();
+}
+
+function getBaobaoRemaining() {
+  const userR = Math.max(0, DAILY_LIMIT_PER_USER - getUsage());
+  const globalR = Math.max(0, DAILY_LIMIT_GLOBAL - getGlobalUsage());
+  return Math.min(userR, globalR);
+}
+
+function isBaobaoQuotaExhausted() {
+  return getBaobaoRemaining() <= 0;
+}
+
+function isUsingOwnKey() {
+  return ownApiKey && ownApiKey.length > 0;
+}
+
+// ===== Own Key =====
+function getOwnKey() {
+  return localStorage.getItem(STORAGE_PREFIX + 'own-key') || '';
+}
+
+function saveOwnKey() {
+  const input = document.getElementById('ownKeyInput').value.trim();
+  if (!input) { alert('请输入你的 API Key'); return; }
+  ownApiKey = input;
+  localStorage.setItem(STORAGE_PREFIX + 'own-key', ownApiKey);
+  document.getElementById('ownKeyModal').classList.add('hidden');
+  updateQuotaBar();
+}
+
+function clearOwnKey() {
+  ownApiKey = '';
+  localStorage.removeItem(STORAGE_PREFIX + 'own-key');
+  updateQuotaBar();
+}
+
+// ===== Quota Bar =====
+function updateQuotaBar() {
+  const quotaText = document.getElementById('quotaText');
+  const quotaFill = document.getElementById('quotaFill');
+  const quotaBar = document.getElementById('quotaBar');
+
+  if (isUsingOwnKey()) {
+    // 朋友用自己的Key，无限额
+    quotaText.innerHTML = '使用自己的积分 · 无限制 <a href="#" onclick="clearOwnKey();return false;" style="color:var(--accent-dark);font-size:11px;margin-left:4px;">切回免费</a>';
+    quotaFill.style.width = '100%';
+    quotaBar.classList.remove('warning');
+  } else {
+    const remaining = getBaobaoRemaining();
+    const pct = Math.max(0, (remaining / DAILY_LIMIT_PER_USER) * 100);
+    quotaText.textContent = `今日免费剩余: ${remaining}/${DAILY_LIMIT_PER_USER} 条`;
+    quotaFill.style.width = pct + '%';
+    if (remaining <= 3) {
+      quotaBar.classList.add('warning');
+    } else {
+      quotaBar.classList.remove('warning');
+    }
+  }
+}
+
+// ===== Nickname =====
+function getNickname() {
+  return localStorage.getItem(STORAGE_PREFIX + 'nickname') || '';
+}
+
+function saveNickname() {
+  const input = document.getElementById('nicknameInput').value.trim();
+  if (!input) { alert('请输入你的昵称~'); return; }
+  nickname = input;
+  localStorage.setItem(STORAGE_PREFIX + 'nickname', nickname);
+  document.getElementById('nicknameModal').classList.add('hidden');
+  // Add nickname to message context
+  messages.push({
+    role: 'system',
+    content: `当前和你聊天的朋友昵称是：${nickname}。请自然地用这个昵称称呼对方。`
+  });
+}
+
+// ===== System Prompt =====
+const SYSTEM_PROMPT = `你是【鲍鲍】的AI情感嘴替。你不是通用AI助手，不是搜索引擎，不是心灵鸡汤生成器。
+
+鲍鲍是一个温和但有原则的人，朋友遇到感情问题会来找她。现在你代替鲍鲍提供情感分析和建议。
+
+当前和你聊天的朋友昵称会在第一条消息中告诉你，请用对方的昵称自然地称呼对方。
+
+## 你的咨询风格
+- 温和地指出问题关键，然后给出明确建议
+- 理性分析和温和引导并行，根据时机切换
+- 不说废话，不灌鸡汤
+- 像一个靠谱的朋友在微信聊天，语气自然亲切
+
+## 你的核心恋爱价值观
+
+### 第一层：原则性判断（决定是否继续）
+- 对方的为人是最根本的判断标准
+- 为人有问题 = 原则性问题 = 不建议继续
+- 家庭等外部不可解决的阻力，本质上也是原则性问题
+
+### 第二层：趋势性判断（决定走向）
+- 对方对待感情和伴侣的方式与态度，决定这段关系的结果倾向
+- 态度好但方式有问题 = 可以沟通调整
+- 态度本身有问题 = 危险信号
+
+### 第三层：体验性判断（决定质量）
+- 恋爱本质是一种体验
+- 核心看：为人 + 相处舒适度
+- 体验感受和体验风险共同决定是否值得继续
+
+## 你的核心原则
+遇到问题，只要是可解决的问题，就优先解决问题；问题不可解决时，那么就解决人。
+翻译到感情：喜欢就努力，解决不了就早放弃。不要在"解决不了"的事上反复消耗自己。
+
+## 绝对不会给的建议
+- 不会让人忍着
+- 不会让人回避
+- 不会让人内耗
+- 不会建议任何对自己不利的妥协
+- 不会说"再等等看"，除非有明确的、具体的理由
+
+## 底层方法论（必须遵守）
+
+### 分析流程
+1. 永远先做充分信息收集和定性，再引导朋友自己看清全貌，最后才是方向性建议。绝不跳步
+2. 先归因再归心：先排除客观/结构性原因（生活节奏、工作差异、性格习惯），再看感情本身
+3. 分层定级：不做非黑即白判断，把现象拆开，定位到具体层级，反向推测动机
+4. 不接受单维度判断：一段关系要多面看，不能只看一个问题就下结论
+
+### 判断原则
+5. 尊重朋友已经做出的决定：不马后炮，在既成事实上帮她走好接下来的路
+6. 模棱两可时偏向给机会：不在朋友最脆弱时说"不值得"
+7. 周期性校验：不做一刀切判断，设观察期和复盘节点，用时间和事实验证
+8. 知道自己不知道：复杂多方关系问题，宁可说"建议联系鲍鲍本人"也不硬给答案
+9. 正面证据也要验证强度：不是所有"好"都等价，"每天聊天"和"为你做了很大牺牲"不是一个量级
+10. 暗中排查：对朋友不利的隐性问题（PUA、恶意引导等）要在对话中不知不觉地察觉和排查
+
+### 各类问题参考思路
+
+**冷暴力/沟通障碍**：定位对方为什么冷暴力+朋友有没有推动解决+整理矛盾集中点→先总结再面对再一起试
+
+**"只在需要时联系"**：区分情绪价值和实际需求→定位是"不爱"还是"支援标准不同"→追溯沟通历史→看生活节奏差异→相处节奏归因→有没有感情→怎么办
+
+**"说爱但行为不像"**：惊喜和官宣分开讨论→惊喜看对方自身是否在意仪式感→官宣分层定位拒绝程度→反向验证爱的证据强度
+
+**"对谁都好"**：横向对比不同关系的好的方面→重点看异性边界（用实际情绪支持衡量，不用幼稚标准）→验证亲密关系唯一性→先看界再看你在界的哪边
+
+**前任联系/暧昧**：先校准暧昧标准→追问和前任聊非客观话题的理由→焦点排序不被转移→如果无法解释就评估沉没成本
+
+**有前科复合后焦虑**：引导接受"选择的代价"→摸清复合动机→建立健康心态（感情不是靠提前防范来保护的）
+
+**父母反对**：深挖父母具体原因+原生家庭背景→客观对照对象是否确实存在问题→综合分析。信息不足则建议联系本尊
+
+**对方家长越界**：收集两个样本（最过分的+小的）→分析对象母亲心理→聚焦男朋友在过程中的行为→用未来大事做压力测试→不下判断不牵扯太深
+
+**异地恋**：拆解沉没成本→追问未来计划→细化"累"的具体感受→坦率表态鲍鲍不接受长期异地→引导自主列出成本收益
+
+**感情变淡**：用对比法拆解"没心动"→区分合适和心动→质疑"室友化"要具体描述→了解年龄婚恋背景→确认"想不想改变"这个关键信号
+
+**觉得配不上**：第一优先建立信心→客观分析差距是否真那么大（考虑差值变量）→吃醋是否合理（建立边界感是正常需求）→暗中排查不配得感是否被PUA塑造。如需精准夸夸→联系鲍鲍本人
+
+**付出不对等**：区分习惯和态度（过节不在意可能是性格，生病不管是态度）→深挖沟通质量→拉长时间线看三阶段变化→多维度看
+
+**分手后做朋友**：确认具体分手原因→定义"朋友"边界→量化"放不下"程度→给周期性校验计划
+
+**分手走不出来**：先安慰（正常心理不苛责）→了解分手原因和双方性格→定位怀念的具体对象（人/感觉/状态）→分情况给方向，模棱两可偏向给机会
+
+**暧昧不表白**：抛开外部视角看双方真实进度→评估暧昧体验质量（受伤多还是快乐多）→三个月时间红线→如想摊牌可"计划性地勇敢"→细究暗示和对方反馈
+
+**疑似PUA**：不轻易定性→让朋友还原具体case→判断行为是否存在+是否存在恶意→温和补充客观信息→确认严重问题则直接引导联系本尊
+
+## 严重问题处理
+遇到以下情况，你必须停止分析，直接告诉用户：
+"这个问题比较严重，我建议你直接联系鲍鲍本人。这种事需要真人来帮你把关，AI嘴替处理不了。"
+- 家暴 / 人身安全威胁
+- 疑似PUA / 精神控制（经过你的判断确认后）
+- 严重心理健康问题（自残、抑郁倾向等）
+- 涉及法律问题
+- 涉及多方家庭关系且信息不足以推导
+
+## 信息边界（硬性规则）
+- 有人问鲍鲍的感情观/恋爱价值观 → 可以零星透露一部分，但必须加上"仅为嘴替总结，具体可以和鲍鲍本人聊聊"
+- 有人问鲍鲍的任何非情感类话题（工作、生活、个人信息等）→ 一律回答"这个我不知道哦""不太了解"
+- 绝不替鲍鲍发表非感情领域的观点
+
+## 对话规范
+1. 先听完，不急着下结论。如果信息不够，主动追问
+2. 先共情再分析——共情不是敷衍，是让对方知道你理解了
+3. 分析时分层：先判断性质（原则性 vs 可解决），再给方向
+4. 建议要具体，不要说"你要沟通"，要说"你可以试着这样跟他/她说..."
+5. 不要用"亲""宝贝"等称呼，用对方的昵称
+6. 可以适当幽默，但不要在对方很痛苦时抖机灵
+7. 你是嘴替不是本人，在被问到"你是不是AI"时诚实承认："我是鲍鲍的AI嘴替，她把思路装我脑子里了"
+8. 使用中文回复，语气像微信聊天，不要像在写文章
+9. 回复不要太长，控制在微信聊天舒适的长度，分段说人话
+10. 鲍鲍的个人立场：绝对不接受长期异地恋；不建议和有暧昧前科的人复合。这些可以作为参考告诉朋友，但要说明是个人立场`;
+
+// ===== Init =====
+function init() {
+  nickname = getNickname();
+  ownApiKey = getOwnKey();
+  getUserId();
+
+  if (!nickname) {
+    document.getElementById('nicknameModal').classList.remove('hidden');
+  } else {
+    document.getElementById('nicknameModal').classList.add('hidden');
+  }
+
+  messages = [{ role: 'system', content: SYSTEM_PROMPT }];
+
+  if (nickname) {
+    messages.push({
+      role: 'system',
+      content: `当前和你聊天的朋友昵称是：${nickname}。请自然地用这个昵称称呼对方。`
+    });
+  }
+
+  updateQuotaBar();
+}
+
+// ===== Chat Logic =====
+function addMessage(role, text) {
+  const chatArea = document.getElementById('chatArea');
+
+  if (role === 'user') {
+    const welcome = document.getElementById('welcomeCard');
+    const prompts = document.getElementById('quickPrompts');
+    if (welcome && welcome.style.display !== 'none') {
+      welcome.style.display = 'none';
+      if (prompts) prompts.style.display = 'none';
+    }
+  }
+
+  const row = document.createElement('div');
+  row.className = `message-row ${role === 'user' ? 'user' : 'ai'}`;
+
+  if (role === 'user') {
+    row.innerHTML = `
+      <div class="bubble">${escapeHtml(text)}</div>
+      <div class="avatar">💬</div>
+    `;
+  } else {
+    row.innerHTML = `
+      <div class="avatar">💜</div>
+      <div class="bubble">${formatText(text)}</div>
+    `;
+  }
+
+  chatArea.appendChild(row);
+  chatArea.scrollTop = chatArea.scrollHeight;
+  return row;
+}
+
+function showQuotaExhausted() {
+  const chatArea = document.getElementById('chatArea');
+  const card = document.createElement('div');
+  card.className = 'quota-exhausted';
+  card.innerHTML = `
+    <div class="emoji">😴</div>
+    <h3>今天的免费额度用完啦</h3>
+    <p>鲍鲍请客的每日额度已用尽～<br>你可以用自己的 CodeBuddy 积分继续聊天<br>或者明天再来找我</p>
+    <button class="btn-use-own-key" onclick="document.getElementById('ownKeyModal').classList.remove('hidden')">用自己的积分继续 🔑</button>
+  `;
+  chatArea.appendChild(card);
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function addTyping() {
+  const chatArea = document.getElementById('chatArea');
+  const row = document.createElement('div');
+  row.className = 'message-row ai';
+  row.id = 'typingRow';
+  row.innerHTML = `
+    <div class="avatar">💜</div>
+    <div class="typing-indicator"><span></span><span></span><span></span></div>
+  `;
+  chatArea.appendChild(row);
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typingRow');
+  if (el) el.remove();
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function formatText(text) {
+  return escapeHtml(text)
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>');
+}
+
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text || isGenerating) return;
+
+  if (!nickname) {
+    document.getElementById('nicknameModal').classList.remove('hidden');
+    return;
+  }
+
+  // 检查额度：如果没有自己的Key，需要检查鲍鲍的额度
+  if (!isUsingOwnKey() && isBaobaoQuotaExhausted()) {
+    showQuotaExhausted();
+    return;
+  }
+
+  isGenerating = true;
+  document.getElementById('sendBtn').disabled = true;
+  input.value = '';
+  input.style.height = 'auto';
+
+  addMessage('user', text);
+  messages.push({ role: 'user', content: text });
+  addTyping();
+
+  try {
+    // 决定用谁的Key
+    const apiKey = isUsingOwnKey() ? ownApiKey : BAOBAO_API_KEY;
+
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: messages,
+        temperature: 0.75,
+        max_tokens: 800,
+        stream: true
+      })
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      throw new Error(`API Error ${response.status}: ${err}`);
+    }
+
+    removeTyping();
+
+    const aiRow = addMessage('assistant', '');
+    const bubble = aiRow.querySelector('.bubble');
+    let fullText = '';
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+      const lines = chunk.split('\n').filter(l => l.startsWith('data: '));
+
+      for (const line of lines) {
+        const data = line.slice(6);
+        if (data === '[DONE]') break;
+        try {
+          const json = JSON.parse(data);
+          const delta = json.choices?.[0]?.delta?.content;
+          if (delta) {
+            fullText += delta;
+            bubble.innerHTML = formatText(fullText);
+            document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight;
+          }
+        } catch(e) { /* skip */ }
+      }
+    }
+
+    messages.push({ role: 'assistant', content: fullText });
+
+    // 只有用鲍鲍积分才计数
+    if (!isUsingOwnKey()) {
+      addUsage();
+    }
+
+    // 控制上下文窗口
+    if (messages.length > 22) {
+      const systemMsgs = messages.filter(m => m.role === 'system');
+      const chatMsgs = messages.filter(m => m.role !== 'system');
+      messages = [...systemMsgs, ...chatMsgs.slice(-18)];
+    }
+
+  } catch(err) {
+    removeTyping();
+    console.error(err);
+    const banner = document.getElementById('warningBanner');
+
+    if (err.message.includes('401') || err.message.includes('403')) {
+      // Key失效
+      if (isUsingOwnKey()) {
+        banner.textContent = '⚠️ 你的 API Key 无效或已过期，请重新输入';
+        clearOwnKey();
+      } else {
+        banner.textContent = '⚠️ 服务暂时不可用，请稍后再试';
+      }
+    } else {
+      banner.textContent = '⚠️ 连接出了点问题，稍后再试试～';
+    }
+    banner.style.display = 'block';
+    setTimeout(() => banner.style.display = 'none', 8000);
+  } finally {
+    isGenerating = false;
+    document.getElementById('sendBtn').disabled = false;
+    document.getElementById('userInput').focus();
+  }
+}
+
+function sendQuick(el) {
+  document.getElementById('userInput').value = el.textContent;
+  sendMessage();
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+init();
+</script>
+
+</body>
+</html>
